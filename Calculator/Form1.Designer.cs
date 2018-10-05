@@ -67,6 +67,7 @@
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(68, 67);
             this.btnReset.TabIndex = 50;
+            this.btnReset.Tag = "~";
             this.btnReset.Text = "C";
             this.btnReset.UseVisualStyleBackColor = true;
             // 
@@ -215,6 +216,7 @@
             // 
             // btnResult
             // 
+            this.btnResult.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResult.Location = new System.Drawing.Point(234, 379);
             this.btnResult.Name = "btnResult";
@@ -222,7 +224,7 @@
             this.btnResult.TabIndex = 1;
             this.btnResult.Tag = "=";
             this.btnResult.Text = "=";
-            this.btnResult.UseVisualStyleBackColor = true;
+            this.btnResult.UseVisualStyleBackColor = false;
             // 
             // btnDecimal
             // 
@@ -253,6 +255,7 @@
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(68, 67);
             this.btnChange.TabIndex = 17;
+            this.btnChange.Tag = "_";
             this.btnChange.Text = "+/-";
             this.btnChange.UseVisualStyleBackColor = true;
             // 
