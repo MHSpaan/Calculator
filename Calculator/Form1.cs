@@ -36,7 +36,8 @@ namespace Calculator
             btnMultiply.Click += Button_Click;
             btnDivide.Click += Button_Click;
             btnDecimal.Click += Button_Click;
-
+            btnChange.Click += Button_Click;
+            btnReset.Click += Button_Click;
         }
 
         private void Button_Click(object sender, EventArgs e)
@@ -46,6 +47,7 @@ namespace Calculator
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e = null)
         {
+            btnResult.Focus();
             if (lblResult.Text == "Error")
             {
                 sbresult.Clear();
@@ -106,6 +108,19 @@ namespace Calculator
                     break;
                 case '=':
                     CalculateAnswer();
+                    break;
+                case '_':
+                    if (sbresult.ToString().StartsWith("-"))
+                    {
+                        sbresult.Remove(0, 1);
+                    }
+                    else
+                    {
+                        sbresult.Insert(0,"-");
+                    }
+                    break;
+                case '~':
+                    sbresult.Clear();
                     break;
             }
             lblResult.Text = sbresult.ToString();
