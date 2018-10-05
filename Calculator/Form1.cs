@@ -12,152 +12,121 @@ namespace Calculator
 {
     public partial class Form1 : Form
     {
-        StringBuilder sb = new StringBuilder();
-        decimal value1;
-        decimal value2;
-        decimal result = 0;
-        decimal temp;
-        char symbol;
+        StringBuilder sbresult = new StringBuilder(9);
+        bool isresult = false;
         public Form1()
         {
             InitializeComponent();
-            lblResult.Text = sb.ToString();
+            lblResult.Text = sbresult.ToString();
+            btn0.Click += Button_Click;
+            btn0.Click += Button_Click;
+            btn1.Click += Button_Click;
+            btn2.Click += Button_Click;
+            btn3.Click += Button_Click;
+            btn4.Click += Button_Click;
+            btn5.Click += Button_Click;
+            btn6.Click += Button_Click;
+            btn7.Click += Button_Click;
+            btn8.Click += Button_Click;
+            btn9.Click += Button_Click;
+            btnRemove.Click += Button_Click;
+            btnResult.Click += Button_Click;
+            btnAdd.Click += Button_Click;
+            btnSubtract.Click += Button_Click;
+            btnMultiply.Click += Button_Click;
+            btnDivide.Click += Button_Click;
+            btnDecimal.Click += Button_Click;
+
         }
 
-        private void btnRemove_Click(object sender, EventArgs e)
+        private void Button_Click(object sender, EventArgs e)
         {
+            Form1_KeyPress(sender);
+        }
 
-            var length = sb.Length;
-            if (length > 0)
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e = null)
+        {
+            if (lblResult.Text == "Error")
             {
-                sb.Remove(length - 1, 1);
-                lblResult.Text = sb.ToString();
+                sbresult.Clear();
+                lblResult.Text = sbresult.ToString();
             }
-        }
-
-        private void btn1_Click(object sender, EventArgs e)
-        {
-            sb.Append(1);
-            lblResult.Text = sb.ToString();
-        }
-
-        private void btn2_Click(object sender, EventArgs e)
-        {
-            sb.Append(2);
-            lblResult.Text = sb.ToString();
-        }
-
-        private void btn3_Click(object sender, EventArgs e)
-        {
-            sb.Append(3);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn4_Click(object sender, EventArgs e)
-        {
-            sb.Append(4);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn5_Click(object sender, EventArgs e)
-        {
-            sb.Append(5);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn6_Click(object sender, EventArgs e)
-        {
-            sb.Append(6);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn7_Click(object sender, EventArgs e)
-        {
-            sb.Append(7);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn8_Click(object sender, EventArgs e)
-        {
-            sb.Append(8);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn9_Click(object sender, EventArgs e)
-        {
-            sb.Append(9);
-            lblResult.Text = sb.ToString();
-
-        }
-
-        private void btn0_Click(object sender, EventArgs e)
-        {
-            sb.Append(0);
-            lblResult.Text = sb.ToString();
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            if (sb.Length > 0)
+            char thischar;
+            if (e == null)
             {
-                value1 = decimal.Parse(sb.ToString());
+                Button button = (Button)sender;
+                thischar = char.Parse(button.Tag.ToString());
             }
             else
-                value1 = result;
-            symbol = '+';
-            sb.Clear();
-        }
-
-
-        private void btnSubtract_Click(object sender, EventArgs e)
-        {
-            value1 = decimal.Parse(sb.ToString());
-            symbol = '-';
-            sb.Clear();
-        }
-
-        private void btnMultiply_Click(object sender, EventArgs e)
-        {
-            value1 = decimal.Parse(sb.ToString());
-            symbol = '*';
-            sb.Clear();
-        }
-
-        private void btnDivide_Click(object sender, EventArgs e)
-        {
-            value1 = decimal.Parse(sb.ToString());
-            symbol = '/';
-            sb.Clear();
-        }
-
-        private void btnResult_Click(object sender, EventArgs e)
-        {
-            value2 = decimal.Parse(sb.ToString());
-            switch (symbol)
             {
+                thischar = e.KeyChar;
+            }
+
+            switch (thischar)
+            {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    if (isresult)
+                    {
+                        sbresult.Clear();
+                        isresult = false;
+                    }
+                    sbresult.Append(thischar);
+                    break;
                 case '+':
-                    result = value1 + value2;
-                    break;
                 case '-':
-                    result = value1 - value2;
-                    break;
                 case '*':
-                    result = value1 * value2;
-                    break;
                 case '/':
-                    result = value1 / value2;
+                    if (!(sbresult.ToString().Length > 0 ? "+-*/.".IndexOf(sbresult.ToString()[sbresult.ToString().Length - 1]) != -1 : false))
+                    {
+                        sbresult.Append(thischar);
+                        isresult = false;
+                    }
                     break;
+                case '\b':
+                case 'b':
+                    if (sbresult.Length > 0)
+                    {
+                        sbresult.Remove(sbresult.Length - 1, 1);
+                    }
+                    break;
+                case '.':
+                    if (!sbresult.ToString().EndsWith("."))
+                    {
+                        sbresult.Append('.');
+                    }
+                    break;
+                case '=':
+                    CalculateAnswer();
+                    break;
+            }
+            lblResult.Text = sbresult.ToString();
+        }
+
+        public void CalculateAnswer()
+        {
+            string value = "Error";
+            try
+            {
+                value = new DataTable().Compute(sbresult.ToString(), null).ToString();
+            }
+            catch (Exception)
+            {
 
             }
-            sb.Clear();
-            lblResult.Text = result.ToString();
-        }
+            isresult = true;
+            sbresult.Clear();
+            sbresult.Append(value);
 
+
+        }
     }
 }
