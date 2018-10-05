@@ -12,13 +12,12 @@ namespace Calculator
 {
     public partial class Form1 : Form
     {
-        StringBuilder sbresult = new StringBuilder(9);
+        StringBuilder sbresult = new StringBuilder();
         bool isresult = false;
         public Form1()
         {
             InitializeComponent();
             lblResult.Text = sbresult.ToString();
-            btn0.Click += Button_Click;
             btn0.Click += Button_Click;
             btn1.Click += Button_Click;
             btn2.Click += Button_Click;
@@ -63,7 +62,6 @@ namespace Calculator
             {
                 thischar = e.KeyChar;
             }
-
             switch (thischar)
             {
                 case '0':
@@ -140,8 +138,6 @@ namespace Calculator
             isresult = true;
             sbresult.Clear();
             sbresult.Append(value);
-
-
         }
     }
 }
