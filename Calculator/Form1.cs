@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -129,15 +130,23 @@ namespace Calculator
             string value = "Error";
             try
             {
+                
                 value = new DataTable().Compute(sbresult.ToString(), null).ToString();
+            }
+            catch (DivideByZeroException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             catch (Exception)
             {
 
             }
-            isresult = true;
-            sbresult.Clear();
-            sbresult.Append(value);
+            finally
+            {
+                isresult = true;
+                sbresult.Clear();
+                sbresult.Append(value);
+            }
         }
     }
 }
